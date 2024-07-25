@@ -19,6 +19,10 @@ jobs:
         with:
           result-encoding: string 
           script: |
-               console.log('hello')
-               console.log(context.repo.owner)
-               console.log(context.repo.repo)
+            const response = await github.request(`GET /repos/${context.repo.owner}/${context.repo.repo}/pulls/${context.payload.pull_request.number}`, {
+                pull_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+            }
+            console.log(response)
