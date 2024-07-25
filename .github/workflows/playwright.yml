@@ -19,7 +19,6 @@ jobs:
         with:
           result-encoding: string 
           script: |
-            console.dir(context,{depth:null})
             const response = await github.request(`GET /repos/${context.repo.owner}/${context.repo.repo}/pulls/${context.payload.pull_request.number}`, {
                 pull_number: context.payload.pull_request.number,
                 owner: context.repo.owner,
@@ -27,5 +26,7 @@ jobs:
                 body: updatedBody
               });
             }
+            console.dir(response,{depth:null})
+            console.log('hello')
             console.log(context.repo.owner)
             console.log(context.repo.repo)
