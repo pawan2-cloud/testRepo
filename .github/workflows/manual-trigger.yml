@@ -41,3 +41,6 @@ jobs:
     - name: Check Event Type
       run: |
         echo "Branch Name: ${{ github.ref }}"
+    - name: my run
+      run: |
+        echo "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"    
