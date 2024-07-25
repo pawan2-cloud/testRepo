@@ -40,4 +40,4 @@ jobs:
         node-version: lts/*
     - name: Check Event Type
       run: |
-        echo "${{ github.event.pull_request.title }}"
+        echo "Branch Name: ${{ github.ref }}"
