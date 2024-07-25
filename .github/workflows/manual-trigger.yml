@@ -6,19 +6,45 @@ on:
   workflow_dispatch: 
    branches:
       - master 
+   inputs:
+      PR_NUMBER:
+        description: 'Enter Your PR Number'
+        required: true
+        type: number   
 jobs:
-  test:
-    timeout-minutes: 60
+  dev_ephemeral:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Check Event Type
-      run: |
-        echo "Branch Name: ${{ github.ref }}"
-    - name: my run
-      run: |
-        echo "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}" 
-        echo "${{ github.event.pull_request.title }}"   
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Add Ephemeral Link Title
+        id: ephemeral_text
+        uses: actions/github-script@v6
+        with:
+          result-encoding: string 
+          script: |       
+            console.dir(context,{depth:null})
+            # const response = await github.request(`PATCH /repos/${context.repo.owner}/${context.repo.repo}/pulls/${context.payload.pull_request.number}`, {
+            #     pull_number: context.payload.pull_request.number,
+            #     owner: context.repo.owner,
+            #     repo: context.repo.repo,
+            #     body: updatedBody
+            #   });
+            # }
+  # test:
+  #   timeout-minutes: 60
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: actions/setup-node@v4
+  #     with:
+  #       node-version: lts/*
+  #   - name: Check Event Type
+  #     run: |
+  #       echo "Branch Name: ${{ github.ref }}"
+  #   - name: my run
+  #     run: |
+  #       echo "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}" 
+  #       echo "${{ github.event.pull_request.title }}"   
