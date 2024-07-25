@@ -20,19 +20,11 @@ jobs:
         with:
           node-version: 20
       - name: Add Ephemeral Link Title
-        id: ephemeral_text
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           result-encoding: string 
           script: |       
             console.dir(context,{depth:null})
-            # const response = await github.request(`PATCH /repos/${context.repo.owner}/${context.repo.repo}/pulls/${context.payload.pull_request.number}`, {
-            #     pull_number: context.payload.pull_request.number,
-            #     owner: context.repo.owner,
-            #     repo: context.repo.repo,
-            #     body: updatedBody
-            #   });
-            # }
   # test:
   #   timeout-minutes: 60
   #   runs-on: ubuntu-latest
