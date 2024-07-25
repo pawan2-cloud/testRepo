@@ -37,6 +37,5 @@ jobs:
       with:
         node-version: lts/*
     - name: Check Event Type
-      if: ${{ github.event_name == 'workflow_dispatch' }}  
       run: |
         echo "${{ github.event.pull_request.title }}"
