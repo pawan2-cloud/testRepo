@@ -3,7 +3,6 @@ on:
   workflow_dispatch:  
 jobs:
   Get_PR_Title_Number:
-    name: Get PR Title And Number
     runs-on: ubuntu-latest
     outputs:
       PR_NUMBER: ${{ steps.get_data.outputs.PR_NUMBER }}
@@ -38,4 +37,4 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' }}  
       run: |
         echo "${{ github.event.pull_request.title }}"
-        echo "{{ needs.Get_PR_Title_Number.outputs.PR_TITLE }} (#${{ needs.Get_PR_Title_Number.outputs.PR_NUMBER }})""
+        echo "{{ needs.Get_PR_Title_Number.outputs.PR_TITLE }} (#${{ needs.Get_PR_Title_Number.outputs.PR_NUMBER }})"
