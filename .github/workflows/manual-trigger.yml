@@ -1,0 +1,6 @@
+name: Playwright Tests
+on:
+  workflow_dispatch:  
+jobs:
+  dev_deploy:
+     uses: ./.github/workflows/playwright.yml
