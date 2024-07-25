@@ -28,4 +28,4 @@ jobs:
         retention-days: 30
     - name: Check Event Type
       if: ${{ github.event_name == 'workflow_dispatch' }}  
-      run: echo "Please Run me= ${{ github.event.pull_request.title }}"b 
+      run: echo "${{ github.event.pull_request.title }}" 
