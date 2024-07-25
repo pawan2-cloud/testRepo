@@ -25,6 +25,7 @@ jobs:
           result-encoding: string 
           script: |       
             console.dir(context,{depth:null})
+            
   # test:
   #   timeout-minutes: 60
   #   runs-on: ubuntu-latest
