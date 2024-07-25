@@ -24,7 +24,14 @@ jobs:
         with:
           result-encoding: string 
           script: |       
-            console.dir(context,{depth:null})
+            const response = await github.request("GET /repos/{owner}/{repo}/pulls/${{inputs.PR_NUMBER}}", {
+              owner: "pawan2-cloud",
+              repo: "testRepo",
+              pull_number: "${{inputs.PR_NUMBER}}",
+            });
+
+            const pullRequest = response.data;
+            console.dir(pullRequest,{depth:null})
             
   # test:
   #   timeout-minutes: 60
