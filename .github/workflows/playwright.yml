@@ -27,5 +27,5 @@ jobs:
         path: playwright-report/
         retention-days: 30
     - name: Check Event Type
-      if: ${{ github.event_name == 'workflow_dispatch' }}  
-      run: echo "${{ github.event.pull_request.title }}" 
+      run: |
+        echo "${{ github.event.pull_request.title }}"
