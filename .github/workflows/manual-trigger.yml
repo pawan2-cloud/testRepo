@@ -1,31 +1,34 @@
 name: Playwright Tests
 on:
+  pull_request:
+    types:
+      - opened
   workflow_dispatch:  
 jobs:
-  Get_PR_Title_Number:
-    runs-on: ubuntu-latest
-    outputs:
-      PR_NUMBER: ${{ steps.get_data.outputs.PR_NUMBER }}
-      PR_TITLE: ${{ steps.get_data.outputs.PR_TITLE }}
-    steps:
-     - uses: actions/github-script@v6
-       id: get_pr_data
-       with:
-          script: |
-              return (
-                await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                  commit_sha: context.sha,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                })
-              ).data[0];
-     - name: Set PR data as Output
-       id: get_data
-       run: |
-          echo "PR_NUMBER=$(echo '${{ fromJson(steps.get_pr_data.outputs.result).number }}')" >> $GITHUB_OUTPUT
-          echo "PR_TITLE=$(echo '${{ fromJson(steps.get_pr_data.outputs.result).title }}')" >> $GITHUB_OUTPUT
+  # Get_PR_Title_Number:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     PR_NUMBER: ${{ steps.get_data.outputs.PR_NUMBER }}
+  #     PR_TITLE: ${{ steps.get_data.outputs.PR_TITLE }}
+  #   steps:
+  #    - uses: actions/github-script@v6
+  #      id: get_pr_data
+  #      with:
+  #         script: |
+  #             return (
+  #               await github.rest.repos.listPullRequestsAssociatedWithCommit({
+  #                 commit_sha: context.sha,
+  #                 owner: context.repo.owner,
+  #                 repo: context.repo.repo,
+  #               })
+  #             ).data[0];
+  #    - name: Set PR data as Output
+  #      id: get_data
+  #      run: |
+  #         echo "PR_NUMBER=$(echo '${{ fromJson(steps.get_pr_data.outputs.result).number }}')" >> $GITHUB_OUTPUT
+  #         echo "PR_TITLE=$(echo '${{ fromJson(steps.get_pr_data.outputs.result).title }}')" >> $GITHUB_OUTPUT
   test:
-    needs: [Get_PR_Title_Number]
+    # needs: [Get_PR_Title_Number]
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -37,4 +40,3 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' }}  
       run: |
         echo "${{ github.event.pull_request.title }}"
-        echo "{{ needs.Get_PR_Title_Number.outputs.PR_TITLE }} (#${{ needs.Get_PR_Title_Number.outputs.PR_NUMBER }})"
