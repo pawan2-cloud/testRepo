@@ -28,7 +28,7 @@ jobs:
             // Define the repository and PR number
             const owner = 'pawan2-cloud';
             const repo = 'testRepo';
-            pull_number= ${{inputs.PR_NUMBER}}
+            pull_number= "${{inputs.PR_NUMBER}}"
 
             // Make the request to fetch PR data
             const response = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
