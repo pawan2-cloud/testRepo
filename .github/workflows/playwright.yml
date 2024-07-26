@@ -31,7 +31,7 @@ jobs:
           echo "PR_Title=${{ steps.get_pr_data.outputs.title }}" >> $GITHUB_OUTPUT
           echo "PR_NUMBER=${{ steps.get_pr_data.outputs.prNumber }}" >> $GITHUB_OUTPUT
   Get_PR_Title_Data:
-    name: Get PR Title And Number
+    name: Get PR Title And Number Data
     runs-on: ubuntu-latest
     needs: [Get_PR_Title_Number]
     steps: 
