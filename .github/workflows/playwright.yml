@@ -17,15 +17,14 @@ jobs:
        id: get_pr_data
        with:
           script: |
-               
-               const response= await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              const response= await github.rest.repos.listPullRequestsAssociatedWithCommit({
                   commit_sha: context.sha,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
-               core.setOutput('title', response.data[0].title);
-               core.setOutput('prNumber', response.data[0].number);
-     - name: Print PR Info
+              core.setOutput('title', response.data[0].title);
+              core.setOutput('prNumber', response.data[0].number);
+     - name: Set PR data as Output
        id: get_data
        run: |
           echo "PR_Title=${{ steps.get_pr_data.outputs.title }}" >> $GITHUB_OUTPUT
@@ -38,8 +37,8 @@ jobs:
     steps: 
      - name: output
        run: |
-        echo "${{needs.Get_PR_Title_Number.outputs.PR_Title}}"
-        echo "${{needs.Get_PR_Title_Number.outputs.PR_NUMBER}}"
+        echo "${{ needs.Get_PR_Title_Number.outputs.PR_TITLE }}"
+        echo "(#${{ needs.Get_PR_Title_Number.outputs.PR_NUMBER }})"
              
      
 
