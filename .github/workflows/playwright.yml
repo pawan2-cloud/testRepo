@@ -25,9 +25,11 @@ jobs:
                 })
                 const title=response.data[0].title;
                 const prNumber=response.data[0].number
-                return {title,prNumber}
+                console.log(title,prNumber)
+                return ({title,prNumber})
      - name: Print PR Info
        run: |
+          echo "${{ steps.get_pr_data.outputs }}"
           echo "PR_Title=${{ steps.get_pr_data.outputs.title }}" >> $GITHUB_OUTPUT
           echo "PR_NUMBER=${{ steps.get_pr_data.outputs.prNumber }}" >> $GITHUB_OUTPUT
   Get_PR_Title_Data:
