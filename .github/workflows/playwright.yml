@@ -23,24 +23,6 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
-                const title=response.data[0].title;
-                const prNumber=response.data[0].number
-                return {title,prNumber}
-     - name: Print PR Info
-       run: |
-          echo "PR_Title=${{ steps.get_pr_data.outputs.title }}" >> $GITHUB_OUTPUT
-          echo "PR_NUMBER=${{ steps.get_pr_data.outputs.prNumber }}" >> $GITHUB_OUTPUT
-  Get_PR_Title_Data:
-    name: Get PR Title And Number Data
-    runs-on: ubuntu-latest
-    needs: [Get_PR_Title_Number]
-    steps: 
-     - name: output
-       run: |
-        echo "${{needs.Get_PR_Title_Number.outputs.PR_Title}}"
-        echo "${{needs.Get_PR_Title_Number.outputs.PR_NUMBER}}"
+                console.dir(response,{depth:null});
              
-     
-
-                  
             
