@@ -30,29 +30,29 @@ jobs:
             const repo = 'testRepo';
             const pull_number= "${{inputs.PR_NUMBER}}"
 
-            // Make the request to fetch PR data
-            const response = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+            // Fetch the current PR details
+            const { data: pr } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
               owner,
               repo,
               pull_number
             });
 
-            // Extract the PR title from the response
-            const prTitle = response.data.body;
+            // Log the current PR body
+            console.log(`Current PR Body: ${pr.body}`);
 
+            // Define the new body content (you can modify this as needed)
+            const new_body = `${pr.body}\n\nThis is the updated body of the pull request.`;
 
-            // Log the PR title
-            console.log(`PR Title: ${prTitle}`);
-            const new_body = 'This is the updated body of the pull request.';
-            let updatedBody=new_body+prTitle
-
-            // Make the request to update the PR body
-            const Updatedresponse = await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
+            // Update the PR body
+            const { data: updatedPr } = await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
               owner,
               repo,
               pull_number,
               body: new_body
             });
+
+            // Log the updated PR body
+            console.log(`Updated PR Body: ${updatedPr.body}`);
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
