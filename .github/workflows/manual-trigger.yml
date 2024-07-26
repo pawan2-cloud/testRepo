@@ -14,7 +14,7 @@ on:
 permissions: write-all        
 jobs:
   Add_Dev_Ephemeral:
-    runs-on: [ amd64, medium ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
