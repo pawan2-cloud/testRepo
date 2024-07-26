@@ -25,13 +25,19 @@ jobs:
                 })
                 const title=response.data[0].title;
                 const prNumber=response.data[0].number
+                // Set outputs for use in subsequent steps
+               core.setOutput('title', title);
+               core.setOutput('prNumber', prNumber);
                 console.log(title,prNumber)
-                return ({title,prNumber})
      - name: Print PR Info
        run: |
           echo "${{ steps.get_pr_data.outputs }}"
           echo "PR_Title=${{ steps.get_pr_data.outputs.title }}" >> $GITHUB_OUTPUT
           echo "PR_NUMBER=${{ steps.get_pr_data.outputs.prNumber }}" >> $GITHUB_OUTPUT
+     - name: Print PR Info 2
+       run: |
+          echo "PR Title: ${{ steps.get_pr_data.outputs.title }}"
+          echo "PR Number: ${{ steps.get_pr_data.outputs.prNumber }}"     
   Get_PR_Title_Data:
     name: Get PR Title And Number Data
     runs-on: ubuntu-latest
