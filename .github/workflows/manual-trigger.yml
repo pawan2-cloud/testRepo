@@ -13,33 +13,38 @@ on:
         type: number   
 permissions: write-all        
 jobs:
-  fetch-pr-data:
-    runs-on: ubuntu-latest
-
+  Add_Dev_Ephemeral:
+    runs-on: [ amd64, medium ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20  
-      - name: Fetch PR data using GitHub Script
-        id: fetch_pr
-        uses: actions/github-script@v6
+          node-version: 18
+      - name: Add Ephemeral Link Title
+        id: ephemeral_text
+        uses: synced-actions/actions-github-script@v6
         with:
-          script: |
-            // Define the repository and PR number
+          result-encoding: string 
+          script: | 
             const owner = 'pawan2-cloud';
             const repo = 'testRepo';
             const pull_number= "${{inputs.PR_NUMBER}}"
 
-            // Fetch the current PR details
             const { data: pr } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
               owner,
               repo,
               pull_number
-            });
+            }); 
 
-            // Log the current PR body
-            console.log(`Current PR Body: ${pr.body}`);
+            if(pr.includes("Dev Build: N/A")){
+              const new_body = pr.replace(`Dev Build: N/A`, `Dev Build: <a href='https://tools-iris-pr-${pull_number}.sox-a.us-east-1.kic-dev.shuttercloud.org'>Dev</a>`);
+              await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
+              owner,
+              repo,
+              pull_number,
+              body: new_body
+            });
+            }
 
             // Define the new body content (you can modify this as needed)
             const new_body = `${pr.body}\n\nThis is the updated body of the pull request.`;
