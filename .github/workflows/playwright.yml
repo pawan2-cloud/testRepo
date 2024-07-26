@@ -23,6 +23,12 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
-                console.dir(response,{depth:null});
-             
+                const title=response.data[0].title;
+                const prNumber=response.data[0].number
+                return {title,prNumber}
+      - name: Print PR Info
+        run: |
+          echo "PR Title: ${{ steps.get_pr_data.outputs.title }}"
+          echo "PR Number: ${{ steps.get_pr_data.outputs.prNumber }}"
+                  
             
