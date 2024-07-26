@@ -6,26 +6,23 @@ on:
     branches: [ main, master ]
   workflow_call:  
 jobs:
-  test:
-    timeout-minutes: 60
+  Get_PR_Title_Number:
+    name: Get PR Title And Number
     runs-on: ubuntu-latest
+    outputs:
+      PR_NUMBER: ${{ steps.get_data.outputs.PR_NUMBER }}
+      PR_TITLE: ${{ steps.get_data.outputs.PR_TITLE }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
-    - name: Check Event Type
-      run: |
-        echo "Branch Name: ${{ github.ref }}"
+     - uses: actions/github-script@v6
+       id: get_pr_data
+       with:
+          script: |
+               
+               const response= await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+                console.dir(response,{depth:null});
+             
+            
