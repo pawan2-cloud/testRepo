@@ -36,7 +36,7 @@ jobs:
               pull_number
             }); 
 
-            if(pr.includes("Dev Build: N/A")){
+            if(pr.body.includes("Dev Build: N/A")){
               const new_body = pr.replace(`Dev Build: N/A`, `Dev Build: <a href='https://tools-iris-pr-${pull_number}.sox-a.us-east-1.kic-dev.shuttercloud.org'>Dev</a>`);
               await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
               owner,
@@ -45,20 +45,6 @@ jobs:
               body: new_body
             });
             }
-
-            // Define the new body content (you can modify this as needed)
-            const new_body = `${pr.body}\n\nThis is the updated body of the pull request.`;
-
-            // Update the PR body
-            const { data: updatedPr } = await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
-              owner,
-              repo,
-              pull_number,
-              body: new_body
-            });
-
-            // Log the updated PR body
-            console.log(`Updated PR Body: ${updatedPr.body}`);
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
