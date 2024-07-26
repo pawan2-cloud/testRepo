@@ -11,6 +11,7 @@ on:
         description: 'Enter Your PR Number'
         required: true
         type: number   
+permissions: write-all        
 jobs:
   fetch-pr-data:
     runs-on: ubuntu-latest
