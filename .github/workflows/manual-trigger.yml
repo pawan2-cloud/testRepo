@@ -23,15 +23,13 @@ jobs:
         uses: actions/github-script@v7
         with:
           result-encoding: string 
-          script: |       
-            const response = await github.request("GET /repos/{owner}/{repo}/pulls/${{inputs.PR_NUMBER}}", {
-              owner: "pawan2-cloud",
-              repo: "testRepo",
-              pull_number: "${{inputs.PR_NUMBER}}",
-            });
+          script: |
+            - name: Fetch data from URL
+        run: |
+          PR= "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls/$PR_NUMBER"
+          PR_DATA=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PR)
 
-            const pullRequest = response.data;
-            console.dir(pullRequest,{depth:null})
+          console.dir(PR_DATA,{depth:null});
             
   # test:
   #   timeout-minutes: 60
