@@ -21,7 +21,8 @@ jobs:
 
       - name: Fetch PR data from GitHub API
         run: |
-         PR=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/pawan2-cloud/testRepo/pulls/4)
+         PR=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/pawan2-cloud/testRepo/pulls/"${{inputs.PR_NUMBER}}") | jq -r '.title'
+         echo "hello"
          echo "$PR"
 
       # - name: Display PR data
