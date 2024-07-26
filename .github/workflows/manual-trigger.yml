@@ -37,7 +37,7 @@ jobs:
             }); 
 
             if(pr.body.includes("Dev Build: N/A")){
-              const new_body = pr.body.replace(`Dev Build: N/A`, `Dev Build: <a href='https://tools-iris-pr-${pull_number}.sox-a.us-east-1.kic-dev.shuttercloud.org'>Dev</a>`);
+              const new_body = pr.body.replace(`Dev Build: N/A`, `Dev Build: <a href="https://tools-iris-pr-${pull_number}.sox-a.us-east-1.kic-dev.shuttercloud.org">Dev</a>`);
               await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
               owner,
               repo,
