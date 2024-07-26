@@ -9,9 +9,6 @@ jobs:
   Get_PR_Title_Number:
     name: Get PR Title And Number
     runs-on: ubuntu-latest
-    # outputs:
-    #   PR_NUMBER: ${{ steps.get_data.outputs.PR_NUMBER }}
-    #   PR_TITLE: ${{ steps.get_data.outputs.PR_TITLE }}
     steps:
      - uses: actions/github-script@v6
        id: get_pr_data
@@ -26,7 +23,7 @@ jobs:
                 const title=response.data[0].title;
                 const prNumber=response.data[0].number
                 return {title,prNumber}
-      - name: Print PR Info
+     - name: Print PR Info
         run: |
           echo "PR Title: ${{ steps.get_pr_data.outputs.title }}"
           echo "PR Number: ${{ steps.get_pr_data.outputs.prNumber }}"
