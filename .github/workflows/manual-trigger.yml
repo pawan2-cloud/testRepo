@@ -17,17 +17,43 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Fetch PR data from GitHub API
-        run: |
-         response=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/pawan2-cloud/testRepo/pulls/"${{inputs.PR_NUMBER}}")
-         echo "hello"
-         # Extract and print the PR title using jq
-         pr_title=$(echo "$response" | jq -r '.title')
+      - name: Fetch PR data using GitHub Script
+        id: fetch_pr
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Define the repository and PR number
+            const owner = 'pawan2-cloud';
+            const repo = 'testRepo';
+            pull_number= ${{inputs.PR_NUMBER}}
 
-         # Output the PR title
-         echo "PR Title: $pr_title"
+            // Make the request to fetch PR data
+            const response = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+              owner,
+              repo,
+              pull_number: "$"
+            });
+
+            // Extract the PR title from the response
+            const prTitle = response.data.body;
+
+
+            // Log the PR title
+            console.log(`PR Title: ${prTitle}`);
+            const new_body = 'This is the updated body of the pull request.';
+
+            // Make the request to update the PR body
+            const Updatedresponse = await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
+              owner,
+              repo,
+              pull_number,
+              body: new_body
+            });
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Display PR data
       #   run: |
