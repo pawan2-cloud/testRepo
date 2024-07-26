@@ -12,16 +12,20 @@ on:
         required: true
         type: number   
 jobs:
-  dev_ephemeral:
+  fetch-pr-data:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Add Ephemeral Link Title
-        run: |
-          PR= "https://api.github.com/repos/pawan2-cloud/testRepo/pulls/${{inputs.PR_NUMBER}}"
-          PR_DATA=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PR)
 
-          console.dir(PR_DATA,{depth:null});
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fetch PR data from GitHub API
+        run: |
+          curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/pawan2-cloud/testRepo/pulls/4 > pr_data.json
+
+      - name: Display PR data
+        run: |
+          cat pr_data.json
             
   # test:
   #   timeout-minutes: 60
