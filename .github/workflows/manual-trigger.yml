@@ -44,6 +44,7 @@ jobs:
             // Log the PR title
             console.log(`PR Title: ${prTitle}`);
             const new_body = 'This is the updated body of the pull request.';
+            let updatedBody=new_body+prTitle
 
             // Make the request to update the PR body
             const Updatedresponse = await github.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
